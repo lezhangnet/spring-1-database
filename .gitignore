@@ -1,0 +1,15 @@
+ml
+.gradle
+.classpath
+.project
+.springBeans
+/target
+/.metadata
+/.settings
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+.externalNativeBuild

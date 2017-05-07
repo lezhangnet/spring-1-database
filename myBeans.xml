@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<bean id="person" class="net.lezhang.spring.beanbasic.Person"></bean>
+
+	<bean id="person1" class="net.lezhang.spring.beanbasic.Person"
+		init-method="onCreate" destroy-method="onDestroy">
+		<constructor-arg value="777" name="id" type="int"></constructor-arg>
+		<constructor-arg value="James Bond" name="name" type="String"></constructor-arg>
+		<property name="taxId" value="123"></property>
+		<property name="name">
+			<value>New Name</value>
+		</property>
+		<!-- dependency injection -->
+		<property name="address" ref="myAddress" />
+	</bean>
+
+	<bean id="myAddress" class="net.lezhang.spring.beanbasic.Address"></bean>
+
+	<bean id="person2" class="net.lezhang.spring.beanbasic.Person">
+		<property name="name" value="${jdbc.user}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+		<property name="testField" value="${testkey}" />
+	</bean>
+
+	<context:component-scan base-package="net.lezhang.spring" />
+
+	<context:property-placeholder location="test.properties" />
+
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+		<property name="username" value="${jdbc.user}"></property>
+	</bean>
+</beans>

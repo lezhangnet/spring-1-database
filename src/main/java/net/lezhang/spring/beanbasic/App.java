@@ -1,5 +1,6 @@
 package net.lezhang.spring.beanbasic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -58,7 +59,18 @@ public class App
 
             System.out.println("Updating via Object:");
             Offer offer3 = new Offer(7, "New Name", "update@email.com", "updated offer");
-            System.out.println(offerDao.update(offer3));
+            System.out.println(offerDao.updateOffer(offer3));
+            offers = offerDao.getOffers();
+            for(Offer offer : offers) {
+                System.out.println(offer);
+            }
+
+            System.out.println("Adding in batch:");
+            List<Offer> offersToAdd = new ArrayList<>();
+            offersToAdd.add(offer1);
+            offersToAdd.add(offer2);
+            offersToAdd.add(offer3);
+            System.out.println(offerDao.insertOffers(offersToAdd));
             offers = offerDao.getOffers();
             for(Offer offer : offers) {
                 System.out.println(offer);

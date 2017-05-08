@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Component;
 
 @Component("offerDao")
@@ -104,7 +106,23 @@ public class OfferDAO {
         // note the param name need to match the POJO property getter name
     }
 
-    public int update(Offer offer) {
+    /**
+     * Insert in batch.
+     * @param offers
+     * @return the total number of records updated
+     */
+    public int insertOffers(List<Offer> offers) {
+        SqlParameterSource[] params = SqlParameterSourceUtils.createBatch(offers.toArray());
+        int[] results = namedParameterJdbcTemplate.batchUpdate("insert into offers (name, email, text)"
+                + "values (:name, :email, :offer)", params);
+        int result = 0;
+        for(int r : results) {
+            result += r;
+        }
+        return result;
+    }
+
+    public int updateOffer(Offer offer) {
         BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(offer);
         return namedParameterJdbcTemplate.update("update offers set name = :name, email = :email, text = :offer "
                 + "where id = :id", params);

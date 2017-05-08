@@ -56,6 +56,14 @@ public class App
                 System.out.println(offer);
             }
 
+            System.out.println("Updating via Object:");
+            Offer offer3 = new Offer(7, "New Name", "update@email.com", "updated offer");
+            System.out.println(offerDao.update(offer3));
+            offers = offerDao.getOffers();
+            for(Offer offer : offers) {
+                System.out.println(offer);
+            }
+
             System.out.println("---------- end of DB testing ----------");
 
         } catch(DataAccessException ex) {

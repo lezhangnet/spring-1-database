@@ -99,10 +99,15 @@ public class OfferDAO {
     
     public int insertOfferUsingObject(Offer offer) {
         BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(offer);
-        
         return namedParameterJdbcTemplate.update("insert into offers (name, email, text)"
                 + "values (:name, :email, :offer)", params);
         // note the param name need to match the POJO property getter name
+    }
+
+    public int update(Offer offer) {
+        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(offer);
+        return namedParameterJdbcTemplate.update("update offers set name = :name, email = :email, text = :offer "
+                + "where id = :id", params);
     }
 
 }

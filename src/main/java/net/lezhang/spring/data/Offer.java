@@ -14,6 +14,13 @@ public class Offer {
         this.offer = offer;
     }
     
+    public Offer(int id, String name, String email, String offer) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.offer = offer;
+    }
+
     public int getId() {
         return id;
     }

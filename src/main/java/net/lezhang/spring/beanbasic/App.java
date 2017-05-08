@@ -76,6 +76,19 @@ public class App
                 System.out.println(offer);
             }
 
+            System.out.println("Testing transaction:");
+            try {
+                System.out.println("result: " + offerDao.transactionalInsert());
+                // will not reach as exception is thrown
+            } catch(Exception e) {
+                System.out.println(e);
+            }
+            offers = offerDao.getOffers();
+            for(Offer offer : offers) {
+                System.out.println(offer);
+            }
+            // should be no diff, indicating no change in DB
+
             System.out.println("---------- end of DB testing ----------");
 
         } catch(DataAccessException ex) {

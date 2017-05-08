@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component("offerDao")
 public class OfferDAO {
@@ -126,6 +127,19 @@ public class OfferDAO {
         BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(offer);
         return namedParameterJdbcTemplate.update("update offers set name = :name, email = :email, text = :offer "
                 + "where id = :id", params);
+    }
+
+    @Transactional
+    public int transactionalInsert() {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", 3);
+        int result1 = namedParameterJdbcTemplate.update("insert into offers (name, email, text)"
+                + "values ('OK Name', 'test@email.com', 'OK offer')", params);
+        System.out.println(result1); // will print 1, indicating this statement is ok
+        int result2 = namedParameterJdbcTemplate.update("insert into offers (id, name, email, text)"
+                + "values (:id, 'Error Name', 'test@email.com', 'Error offer')", params);
+        System.out.println(result2); // will not reach
+        return result1 + result2;
     }
 
 }

@@ -42,9 +42,21 @@ public class App
 
             System.out.println("Adding the poor guy back: ");
             System.out.println(offerDao.insertOffer(2));
-            
+
             System.out.println("Trying to get the single object from database again should work now: ");
             System.out.println(offerDao.getOffer(2));
+
+            System.out.println("Adding via Object: ");
+            Offer offer1 = new Offer("Dave", "dave@email.com", "offer from Dave");
+            Offer offer2 = new Offer("Karen", "karen@email.com", "offer from Karen");
+            System.out.println(offerDao.insertOfferUsingObject(offer1));
+            System.out.println(offerDao.insertOfferUsingObject(offer2));
+            offers = offerDao.getOffers();
+            for(Offer offer : offers) {
+                System.out.println(offer);
+            }
+
+            System.out.println("---------- end of DB testing ----------");
 
         } catch(DataAccessException ex) {
             System.out.println(ex.getClass());

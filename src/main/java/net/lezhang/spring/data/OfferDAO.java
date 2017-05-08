@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -97,8 +98,11 @@ public class OfferDAO {
     }
     
     public int insertOfferUsingObject(Offer offer) {
+        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(offer);
         
-        return 0;
+        return namedParameterJdbcTemplate.update("insert into offers (name, email, text)"
+                + "values (:name, :email, :offer)", params);
+        // note the param name need to match the POJO property getter name
     }
 
 }
